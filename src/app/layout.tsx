@@ -21,7 +21,9 @@ const themeInitializationScript = `
 
       document.documentElement.classList.toggle("dark", theme === "dark");
       document.documentElement.style.colorScheme = theme;
-    } catch (error) {}
+    } catch (error) {
+      // Ignore storage and media-query failures so the app can continue rendering.
+    }
   })();
 `;
 

@@ -25,12 +25,16 @@ function applyTheme(theme: Theme) {
   } catch {}
 }
 
+function getInitialTheme(): Theme {
+  return getStoredTheme() ?? (document.documentElement.classList.contains("dark") ? "dark" : "light");
+}
+
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setTheme(getStoredTheme() ?? (document.documentElement.classList.contains("dark") ? "dark" : "light"));
+    setTheme(getInitialTheme());
     setMounted(true);
   }, []);
 
