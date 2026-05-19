@@ -7,10 +7,22 @@ type Theme = "light" | "dark";
 
 const THEME_STORAGE_KEY = "theme";
 
+function getStoredTheme(): Theme | null {
+  try {
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    return storedTheme === "dark" || storedTheme === "light" ? storedTheme : null;
+  } catch {
+    return null;
+  }
+}
+
 function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("dark", theme === "dark");
   document.documentElement.style.colorScheme = theme;
-  localStorage.setItem(THEME_STORAGE_KEY, theme);
+
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch {}
 }
 
 export function ThemeToggle() {
@@ -18,7 +30,7 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setTheme(document.documentElement.classList.contains("dark") ? "dark" : "light");
+    setTheme(getStoredTheme() ?? (document.documentElement.classList.contains("dark") ? "dark" : "light"));
     setMounted(true);
   }, []);
 
