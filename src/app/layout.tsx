@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import Link from "next/link";
 import { Camera } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/layout/ThemeToggle";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Photo Gallery & Portfolio",
@@ -20,10 +15,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} antialiased`}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var storedTheme=localStorage.getItem("theme");var theme=storedTheme==="dark"||storedTheme==="light"?storedTheme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.classList.toggle("dark",theme==="dark");document.documentElement.style.colorScheme=theme;}catch(error){console.error(error);}})();`,
+          }}
+        />
+      </head>
+      <body className="antialiased">
         {/* Navigation Header */}
         <header className="border-b bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm sticky top-0 z-40">
           <div className="container mx-auto px-4 py-4">
@@ -41,6 +41,7 @@ export default function RootLayout({
                 <Link href="/upload" className="nav-link">
                   Upload
                 </Link>
+                <ThemeToggle />
                 <Link href="/admin" className="btn-primary">
                   Admin
                 </Link>
