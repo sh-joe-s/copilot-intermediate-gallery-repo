@@ -32,6 +32,7 @@ export function ThemeToggle() {
 
   const nextTheme = theme === "dark" ? "light" : "dark";
   const label = mounted ? `Switch to ${nextTheme} mode` : "Toggle color theme";
+  const currentThemeLabel = theme === "dark" ? "Dark" : "Light";
 
   return (
     <button
@@ -41,8 +42,8 @@ export function ThemeToggle() {
       aria-label={label}
       title={label}
     >
-      {nextTheme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-      <span className="hidden sm:inline">{nextTheme === "dark" ? "Dark" : "Light"}</span>
+      {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+      <span className="hidden sm:inline">{currentThemeLabel}</span>
     </button>
   );
 }

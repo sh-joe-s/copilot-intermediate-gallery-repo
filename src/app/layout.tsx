@@ -9,6 +9,22 @@ export const metadata: Metadata = {
   description: "A curated collection of photographs and creative works showcasing a personal portfolio.",
 };
 
+const themeInitializationScript = `
+  (function() {
+    try {
+      var storedTheme = localStorage.getItem("theme");
+      var theme = storedTheme === "dark" || storedTheme === "light"
+        ? storedTheme
+        : window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      document.documentElement.style.colorScheme = theme;
+    } catch (error) {}
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -19,7 +35,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var storedTheme=localStorage.getItem("theme");var theme=storedTheme==="dark"||storedTheme==="light"?storedTheme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.classList.toggle("dark",theme==="dark");document.documentElement.style.colorScheme=theme;}catch(error){console.error(error);}})();`,
+            __html: themeInitializationScript,
           }}
         />
       </head>
